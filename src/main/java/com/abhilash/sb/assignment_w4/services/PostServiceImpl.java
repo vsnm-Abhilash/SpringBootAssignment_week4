@@ -3,10 +3,12 @@ package com.abhilash.sb.assignment_w4.services;
 
 import com.abhilash.sb.assignment_w4.dto.PostsDTO;
 import com.abhilash.sb.assignment_w4.entities.PostsEntity;
+import com.abhilash.sb.assignment_w4.entities.User;
 import com.abhilash.sb.assignment_w4.exceptions.ResourceNotFoundException;
 import com.abhilash.sb.assignment_w4.repositories.PostsRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class PostServiceImpl implements PostsService {
 
     @Override
     public PostsDTO getPostById(Long id) {
+        User user=(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PostsEntity postsEntity=postsRepo
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id "+id));
